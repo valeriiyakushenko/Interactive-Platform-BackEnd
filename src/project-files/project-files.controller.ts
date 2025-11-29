@@ -26,8 +26,8 @@ export class ProjectFilesController {
         return this.projectFilesService.create(createProjectFileDto);
     }
 
-    @ApiOperation({ summary: 'Get all project files by project ID' })
-    @ApiParam({ name: 'projectId', type: 'number', description: 'Project ID' })
+    @ApiOperation({ summary: 'Get all project files by project id' })
+    @ApiParam({ name: 'projectId', type: 'number', description: 'Project id' })
     @ApiResponse({ 
         status: 200, 
         description: 'Project files retrieved successfully', 
@@ -39,8 +39,8 @@ export class ProjectFilesController {
         return this.projectFilesService.findByProjectId(+projectId);
     }
 
-    @ApiOperation({ summary: 'Get project file by ID' })
-    @ApiParam({ name: 'id', type: 'number', description: 'Project file ID' })
+    @ApiOperation({ summary: 'Get project file by id' })
+    @ApiParam({ name: 'id', type: 'number', description: 'Project file id' })
     @ApiResponse({ 
         status: 200, 
         description: 'Project file retrieved successfully', 
@@ -53,8 +53,8 @@ export class ProjectFilesController {
         return this.projectFilesService.findById(+id);
     }
 
-    @ApiOperation({ summary: 'Update project file' })
-    @ApiParam({ name: 'id', type: 'number', description: 'Project file ID' })
+    @ApiOperation({ summary: 'Update project file by id' })
+    @ApiParam({ name: 'id', type: 'number', description: 'Project file id' })
     @ApiResponse({ 
         status: 200, 
         description: 'Project file updated successfully', 
@@ -68,8 +68,8 @@ export class ProjectFilesController {
         return this.projectFilesService.update(+id, updateProjectFileDto);
     }
 
-    @ApiOperation({ summary: 'Delete project file' })
-    @ApiParam({ name: 'id', type: 'number', description: 'Project file ID' })
+    @ApiOperation({ summary: 'Delete project file by id' })
+    @ApiParam({ name: 'id', type: 'number', description: 'Project file id' })
     @ApiResponse({ status: 200, description: 'Project file deleted successfully' })
     @ApiResponse({ status: 404, description: 'Project file not found' })
     @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -79,8 +79,8 @@ export class ProjectFilesController {
         return { message: 'Project file deleted successfully' };
     }
 
-    @ApiOperation({ summary: 'Delete all project files by project ID' })
-    @ApiParam({ name: 'projectId', type: 'number', description: 'Project ID' })
+    @ApiOperation({ summary: 'Delete all project files by project id' })
+    @ApiParam({ name: 'projectId', type: 'number', description: 'Project id' })
     @ApiResponse({ status: 200, description: 'All project files deleted successfully' })
     @ApiResponse({ status: 401, description: 'Unauthorized' })
     @Delete('project/:projectId')

@@ -31,14 +31,14 @@ export class ProjectsController {
         return this.projectsService.getById(+id);
     }
 
-    @ApiOperation({ summary: 'Update project' })
+    @ApiOperation({ summary: 'Update project by id' })
     @ApiResponse({ status: 200, type: Project })
     @Put(':id')
     update(@Param('id') id: string, @Body() dto: ProjectDto) {
         return this.projectsService.update(+id, dto);
     }
 
-    @ApiOperation({ summary: 'Delete project' })
+    @ApiOperation({ summary: 'Delete project by id' })
     @ApiResponse({ status: 200 })
     @Delete(':id')
     delete(@Param('id') id: string) {

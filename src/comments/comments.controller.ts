@@ -38,14 +38,14 @@ export class CommentsController {
         return this.commentsService.getById(+id);
     }
 
-    @ApiOperation({ summary: 'Update comment' })
+    @ApiOperation({ summary: 'Update comment by id' })
     @ApiResponse({ status: 200, type: Comment })
     @Put(':id')
     update(@Param('id') id: string, @Body() dto: Partial<CommentDto>) {
         return this.commentsService.update(+id, dto);
     }
 
-    @ApiOperation({ summary: 'Delete comment' })
+    @ApiOperation({ summary: 'Delete comment by id' })
     @ApiResponse({ status: 200 })
     @Delete(':id')
     delete(@Param('id') id: string) {

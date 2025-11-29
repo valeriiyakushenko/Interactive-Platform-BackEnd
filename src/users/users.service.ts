@@ -114,4 +114,95 @@ export class UsersService {
             throw new HttpException({message: 'Failed to delete user', error: e.message}, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    async addRoleToUser(userId: number, roleValue: string) {
+        try {
+            const user = await this.userRepository.findByPk(userId);
+            if (!user) {
+                throw new NotFoundException(`User with ID ${userId} not found`);
+            }
+
+            const role = await this.rolesService.getRoleByValue(roleValue);
+            if (!role) {
+                throw new NotFoundException(`Role with value '${roleValue}' not found`);
+            }
+
+            await user.$add('roles', role.id);
+            await user.reload({ 
+                include: { all: true }, 
+                attributes: { exclude: ['password'] } 
+            });
+
+            return user;
+        } catch (e) {
+            if (e instanceof NotFoundException) {
+                throw e;
+            }
+            throw new HttpException({
+                message: 'Failed to add role to user',
+                error: e.message
+            }, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    async removeRoleFromUser(userId: number, roleValue: string) {
+        try {
+            const user = await this.userRepository.findByPk(userId);
+            if (!user) {
+                throw new NotFoundException(`User with ID ${userId} not found`);
+            }
+
+            const role = await this.rolesService.getRoleByValue(roleValue);
+            if (!role) {
+                throw new NotFoundException(`Role with value '${roleValue}' not found`);
+            }
+
+            await user.$remove('roles', role.id);
+            await user.reload({ 
+                include: { all: true }, 
+                attributes: { exclude: ['password'] } 
+            });
+
+            return user;
+        } catch (e) {
+            if (e instanceof NotFoundException) {
+                throw e;
+            }
+            throw new HttpException({
+                message: 'Failed to remove role from user',
+                error: e.message
+            }, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    async getUserRoles(userId: number) {
+        try {
+            const user = await this.userRepository.findByPk(userId, {
+                include: ['roles'],
+                attributes: ['id', 'first_name', 'last_name', 'email']
+            });
+
+            if (!user) {
+                throw new NotFoundException(`User with ID ${userId} not found`);
+            }
+
+            return {
+                user: {
+                    id: user.id,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email
+                },
+                roles: user.roles
+            };
+        } catch (e) {
+            if (e instanceof NotFoundException) {
+                throw e;
+            }
+            throw new HttpException({
+                message: 'Failed to get user roles',
+                error: e.message
+            }, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
